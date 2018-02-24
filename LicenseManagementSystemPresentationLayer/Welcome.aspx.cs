@@ -67,17 +67,9 @@ namespace LicenseManagementSystemPresentationLayer
             // From a drope down list take a number of rows to display in a gridview.
             int rows = int.Parse(ddlRowsPerPage.SelectedItem.Value);
 
-            // Choose a sorting direction (if true then ASC if false then DESC).
-            if ((bool)ViewState["sortDirection"] == true)
-            {
-                licensesDataBind(currentPageNumber, columnIndex, true, rows);
-                ViewState["sortDirection"] = false;
-            }
-            else
-            {
-                licensesDataBind(currentPageNumber, columnIndex, false, rows);
-                ViewState["sortDirection"] = true;
-            }
+            // Choose a sorting direction (if true then ASC if false then DESC).           
+            licensesDataBind(currentPageNumber, columnIndex, (bool)ViewState["sortDirection"], rows);
+            ViewState["sortDirection"] = !(bool)ViewState["sortDirection"];
         }
 
         protected void lbnPage_Click(object sender, EventArgs e)
@@ -99,6 +91,7 @@ namespace LicenseManagementSystemPresentationLayer
 
             // Bind a chosen portion of data to the gridview
             licensesDataBind(0, (int)ViewState["indexSortedColumn"], true, rows);
+            ViewState["sortDirection"] = false;
         }
 
         // Helper methods - to redesin into another class.
