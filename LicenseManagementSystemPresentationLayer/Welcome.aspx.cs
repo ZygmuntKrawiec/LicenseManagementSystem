@@ -37,6 +37,7 @@ namespace LicenseManagementSystemPresentationLayer
 
                 // Save a sort direction (ASC - true, DESC - false).
                 ViewState["sortDirection"] = false;
+
             }
         }
 
@@ -93,6 +94,39 @@ namespace LicenseManagementSystemPresentationLayer
             licensesDataBind(0, (int)ViewState["indexSortedColumn"], true, rows);
             ViewState["sortDirection"] = false;
         }
+
+        protected void gvLicenseData_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                //Add to all cells OnClick event and change the cursor to a pointer. 
+                for (int columnIndex = 0; columnIndex < 3; columnIndex++)
+                {
+                    e.Row.Cells[columnIndex].Attributes["OnClick"] = Page.ClientScript.GetPostBackClientHyperlink((Control)sender, $"${e.Row.RowIndex.ToString()}");
+                    e.Row.Cells[columnIndex].Attributes["style"] = "cursor:pointer;cursor:hand;";
+                }
+            }
+        }
+
+        protected void gvLicenseData_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            // Make all texboxes visible
+            // If's to REFACTOR
+            if (pnlTextBoxes.Visible == false)
+            {
+                pnlTextBoxes.Visible = true;
+            }
+
+            if (((GridView)sender).Rows.OfType<GridViewRow>().Any(x => x.Attributes["Style"] == "Background:Green"))
+            {
+                ((GridView)sender).Rows.OfType<GridViewRow>().First(x => x.Attributes["Style"] == "Background:Green").Attributes["Style"] = "Background:none";
+            }
+            int colRowIndexes = int.Parse(e.CommandArgument.ToString());
+            txtUserName.Text = ((GridView)sender).Rows[colRowIndexes].Cells[0].Text;
+            txtUserEmal.Text = ((GridView)sender).Rows[colRowIndexes].Cells[1].Text;
+            ((GridView)sender).Rows[colRowIndexes].Attributes["Style"] = "Background:Green";
+        }
+
 
         // Helper methods - to redesin into another class.
 
@@ -168,5 +202,9 @@ namespace LicenseManagementSystemPresentationLayer
             return currentPageNumber;
         }
 
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
