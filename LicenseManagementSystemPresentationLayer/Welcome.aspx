@@ -18,7 +18,7 @@
         <asp:Button ID="btnModify" runat="server" Text="Modify" />
         <asp:Button ID="btnDelete" runat="server" Text="Delete" />
     </asp:Panel>
-    <asp:Panel ID="pnlTextBoxes" runat="server" Visible="false">
+    <asp:Panel ID="pnlTextBoxes" runat="server" Visible="true">
         <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtUserEmal" runat="server"></asp:TextBox>
     </asp:Panel>
@@ -32,7 +32,7 @@
             </ItemTemplate>
         </asp:Repeater>
     </div>
-    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="lblMessages" runat="server" Text=""></asp:Label>
 
 </asp:Content>
 

@@ -112,6 +112,23 @@ namespace LicenseManagementSystemBusinessLayer.WebService
 
             userDataProvider.RemoveUserGuidFromDatabase(userEmail, loggedUsersAccessNumber);
         }
+
+        /// <summary>
+        /// TODO:
+        /// </summary>
+        [WebMethod]
+        public bool AddNewLicenseData(string userEmail, Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail)
+        {
+            sqlConnectionToDatabase.ConnectionString = connectionString;
+            UserDataProvider userDataProvider = new UserDataProvider(sqlConnectionToDatabase);
+            if (userDataProvider.CheckExistenceUserGuidInDatabase(userEmail, loggedUsersAccessNumber))
+            {
+                sqlConnectionToDatabase.ConnectionString = connectionString;
+                return new LicensesDataProvider(sqlConnectionToDatabase).AddNewLicense(licenseDataUserName, licenseDataUserEmail);
+            }
+
+            return false;
+        }
     }
 
     public class LicensesContainer

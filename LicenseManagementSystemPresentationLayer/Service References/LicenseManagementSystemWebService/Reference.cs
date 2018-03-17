@@ -43,6 +43,13 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LogoutUser", ReplyAction="*")]
         System.Threading.Tasks.Task LogoutUserAsync(string userEmail, System.Guid loggedUsersAccessNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AddNewLicenseData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        bool AddNewLicenseData(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AddNewLicenseData", ReplyAction="*")]
+        System.Threading.Tasks.Task<bool> AddNewLicenseDataAsync(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail);
     }
     
     /// <remarks/>
@@ -148,6 +155,14 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         public System.Threading.Tasks.Task LogoutUserAsync(string userEmail, System.Guid loggedUsersAccessNumber) {
             return base.Channel.LogoutUserAsync(userEmail, loggedUsersAccessNumber);
+        }
+        
+        public bool AddNewLicenseData(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail) {
+            return base.Channel.AddNewLicenseData(userEmail, loggedUsersAccessNumber, licenseDataUserName, licenseDataUserEmail);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AddNewLicenseDataAsync(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail) {
+            return base.Channel.AddNewLicenseDataAsync(userEmail, loggedUsersAccessNumber, licenseDataUserName, licenseDataUserEmail);
         }
     }
 }

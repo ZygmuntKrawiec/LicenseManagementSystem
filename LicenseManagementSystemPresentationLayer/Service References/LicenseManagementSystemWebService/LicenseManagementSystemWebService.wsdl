@@ -76,6 +76,23 @@
       <s:element name="LogoutUserResponse">
         <s:complexType />
       </s:element>
+      <s:element name="AddNewLicenseData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userEmail" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loggedUsersAccessNumber" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="licenseDataUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="licenseDataUserEmail" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNewLicenseDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNewLicenseDataResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -109,6 +126,12 @@
   <wsdl:message name="LogoutUserSoapOut">
     <wsdl:part name="parameters" element="tns:LogoutUserResponse" />
   </wsdl:message>
+  <wsdl:message name="AddNewLicenseDataSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNewLicenseData" />
+  </wsdl:message>
+  <wsdl:message name="AddNewLicenseDataSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNewLicenseDataResponse" />
+  </wsdl:message>
   <wsdl:portType name="LicenseManagementSystemWebServiceSoap">
     <wsdl:operation name="Login">
       <wsdl:input message="tns:LoginSoapIn" />
@@ -125,6 +148,10 @@
     <wsdl:operation name="LogoutUser">
       <wsdl:input message="tns:LogoutUserSoapIn" />
       <wsdl:output message="tns:LogoutUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewLicenseData">
+      <wsdl:input message="tns:AddNewLicenseDataSoapIn" />
+      <wsdl:output message="tns:AddNewLicenseDataSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LicenseManagementSystemWebServiceSoap" type="tns:LicenseManagementSystemWebServiceSoap">
@@ -165,6 +192,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AddNewLicenseData">
+      <soap:operation soapAction="http://tempuri.org/AddNewLicenseData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="LicenseManagementSystemWebServiceSoap12" type="tns:LicenseManagementSystemWebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -197,6 +233,15 @@
     </wsdl:operation>
     <wsdl:operation name="LogoutUser">
       <soap12:operation soapAction="http://tempuri.org/LogoutUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewLicenseData">
+      <soap12:operation soapAction="http://tempuri.org/AddNewLicenseData" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

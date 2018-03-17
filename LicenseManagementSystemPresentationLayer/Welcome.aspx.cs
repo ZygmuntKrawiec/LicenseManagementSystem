@@ -27,7 +27,7 @@ namespace LicenseManagementSystemPresentationLayer
                 lblUserName.Text = User.Identity.Name.ToString();
                 // LicensesDataBind(User.Identity.Name.ToString(), (Guid)Session["loggedUsersAccessNumber"], 1, 1, true);
 #if (!DEBUG)
-                throw new Exception("Uncomment the line above and a line in an authorization tag in web.config, change userdata in the line 136 ");
+                throw new Exception("Uncomment the line above and a line in an authorization tag in web.config, change userdata in the line 136, and change hadr Guid into viewstateguid ");
 #endif
                 // Read a first portion of data and display it in a gridview.
                 licensesDataBind(0, 0, true, 10);
@@ -83,6 +83,11 @@ namespace LicenseManagementSystemPresentationLayer
 
             // Bind a chosen portion of data to the gridview
             licensesDataBind(pageNumber, (int)ViewState["indexSortedColumn"], !(bool)ViewState["sortDirection"], rows);
+
+            // Clear all texboxes
+            txtUserEmal.Text = string.Empty;
+            txtUserName.Text = string.Empty;
+
         }
 
         protected void ddlRowsPerPage_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,13 +98,17 @@ namespace LicenseManagementSystemPresentationLayer
             // Bind a chosen portion of data to the gridview
             licensesDataBind(0, (int)ViewState["indexSortedColumn"], true, rows);
             ViewState["sortDirection"] = false;
+
+            // Clear all texboxes
+            txtUserEmal.Text = string.Empty;
+            txtUserName.Text = string.Empty;
         }
 
         protected void gvLicenseData_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Row.RowType == DataControlRowType.DataRow && e.Row.RowType != DataControlRowType.Header)
             {
-                //Add to all cells OnClick event and change the cursor to a pointer. 
+                // Adds to all cells OnClick event and change the cursor to a pointer. 
                 for (int columnIndex = 0; columnIndex < 3; columnIndex++)
                 {
                     e.Row.Cells[columnIndex].Attributes["OnClick"] = Page.ClientScript.GetPostBackClientHyperlink((Control)sender, $"${e.Row.RowIndex.ToString()}");
@@ -111,22 +120,33 @@ namespace LicenseManagementSystemPresentationLayer
         protected void gvLicenseData_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             // Make all texboxes visible
-            // If's to REFACTOR
-            if (pnlTextBoxes.Visible == false)
-            {
-                pnlTextBoxes.Visible = true;
-            }
+            // If's to REFACTOR          
 
             if (((GridView)sender).Rows.OfType<GridViewRow>().Any(x => x.Attributes["Style"] == "Background:Green"))
             {
                 ((GridView)sender).Rows.OfType<GridViewRow>().First(x => x.Attributes["Style"] == "Background:Green").Attributes["Style"] = "Background:none";
             }
-            int colRowIndexes = int.Parse(e.CommandArgument.ToString());
-            txtUserName.Text = ((GridView)sender).Rows[colRowIndexes].Cells[0].Text;
-            txtUserEmal.Text = ((GridView)sender).Rows[colRowIndexes].Cells[1].Text;
-            ((GridView)sender).Rows[colRowIndexes].Attributes["Style"] = "Background:Green";
+
+            int colRowIndexes;
+            if (int.TryParse(e.CommandArgument.ToString(), out colRowIndexes))
+            {
+                txtUserName.Text = ((GridView)sender).Rows[colRowIndexes].Cells[0].Text;
+                txtUserEmal.Text = ((GridView)sender).Rows[colRowIndexes].Cells[1].Text;
+                ((GridView)sender).Rows[colRowIndexes].Attributes["Style"] = "Background:Green";
+            }
         }
 
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            // Add a new license to a database and reads the result. If true license was added if false license could not be added.
+            bool result = wsClient.AddNewLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
+
+            // Sets a proper text colour to the label which displays result message.
+            lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+
+            // Displays in the label a message about result of adding a license into database.
+            lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmal.Text} email already exists.";
+        }
 
         // Helper methods - to redesin into another class.
 
@@ -202,9 +222,6 @@ namespace LicenseManagementSystemPresentationLayer
             return currentPageNumber;
         }
 
-        protected void btnAdd_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }
