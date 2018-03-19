@@ -32,29 +32,9 @@ namespace LicenseManagementSystemBusinessLayer.Code
 
             DataSet resultDataSet = new DataSet();
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-
-            // Exception handling to REFACTOR!
-
-            try
-            {
-                using (sqlConnection)
-                {
-                    sqlConnection.Open();
-                    sqlDataAdapter.Fill(resultDataSet);
-                }
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw ex;
-            }
-            catch (SqlException ex)
-            {
-                throw ex;
-            }
-            catch (ConfigurationErrorsException ex)
-            {
-                throw ex;
-            }
+            Func<SqlCommand, object> queryToExecute = (cmd) => new SqlDataAdapter(cmd).Fill(resultDataSet);
+            
+            resultOfQuery(sqlCommand, queryToExecute);          
 
             int numberOfAllRows = (int)sqlCommand.Parameters["@maximumNumberOfRows"].Value;
             return new Tuple<DataSet, int>(resultDataSet, numberOfAllRows);
