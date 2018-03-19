@@ -8,14 +8,11 @@ using System.Data;
 
 namespace LicenseManagementSystemBusinessLayer.Code
 {
-    internal class LicensesDataProvider
+    internal class LicensesDataProvider : DataProvider
     {
-        SqlConnection sqlConnection;
-
         // Public
-        public LicensesDataProvider(SqlConnection con)
+        public LicensesDataProvider(SqlConnection con) : base(con)
         {
-            sqlConnection = con;
         }
 
         public Tuple<DataSet, int> GetLicensesData(int pageNumber, int columnToSort, int numberOfRowsToDisplay, bool typeOfSorting)
@@ -63,6 +60,12 @@ namespace LicenseManagementSystemBusinessLayer.Code
             return new Tuple<DataSet, int>(resultDataSet, numberOfAllRows);
         }
 
+        /// <summary>
+        /// Adds new license data to database.
+        /// </summary>
+        /// <param name="LicenseDataUserName">A new license username </param>
+        /// <param name="licenseDatauserEmail">A new license useremail</param>
+        /// <returns></returns>
         public bool AddNewLicense(string LicenseDataUserName, string licenseDatauserEmail)
         {
             SqlCommand sqlCommand = new SqlCommand();
@@ -76,37 +79,5 @@ namespace LicenseManagementSystemBusinessLayer.Code
             return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery()) == 1 ? true : false;
         }
 
-        // Private
-
-        /// <summary>
-        /// Executes a sqlcommand instance.
-        /// </summary>
-        /// <param name="cmd">A command to execute.</param>
-        /// <param name="executeQuery">A provides a method to execute a command to recive a proper result. </param>
-        /// <returns>Returns a result of the sqlCommand executions.</returns>
-        private object resultOfQuery(SqlCommand cmd, Func<SqlCommand, object> executeQuery)
-        {
-            try
-            {
-                using (sqlConnection)
-                {
-                    cmd.Connection = sqlConnection;
-                    sqlConnection.Open();
-                    return executeQuery(cmd);
-                }
-            }// TODO: To Implement better exception handling.
-            catch (InvalidOperationException ex)
-            {
-                throw ex;
-            }
-            catch (SqlException ex)
-            {
-                throw ex;
-            }
-            catch (ConfigurationErrorsException ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

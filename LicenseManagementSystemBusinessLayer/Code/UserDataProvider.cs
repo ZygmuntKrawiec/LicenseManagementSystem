@@ -11,18 +11,14 @@ namespace LicenseManagementSystemBusinessLayer.Code
     /// Represents a user's data provider which reads user's password from a database, 
     /// save a new user into database and saves or deletes users guid number.  
     /// </summary>
-    internal class UserDataProvider
+    internal class UserDataProvider : DataProvider
     {
-        // Keeps a connection instance to database where users data are kept.
-        private SqlConnection con;
-
         /// <summary>
         /// Initializes a new instance of UserDataProvider class that contains a connection to database.
         /// </summary>
         /// <param name="sqlDatabaseConnection">A connection to database.</param>
-        public UserDataProvider(SqlConnection sqlDatabaseConnection)
+        public UserDataProvider(SqlConnection sqlDatabaseConnection) : base(sqlDatabaseConnection)
         {
-            con = sqlDatabaseConnection;
         }
 
         /// <summary>
@@ -53,42 +49,11 @@ namespace LicenseManagementSystemBusinessLayer.Code
                         BEGIN
                             INSERT INTO [dbo].[tblUsersWithAccessToLicensesData] VALUES (@UserEmail, @Password)                            
                         END";
-            
+
             SqlCommand sqlCommand = new SqlCommand(command);
             sqlCommand.Parameters.AddWithValue("@UserEmail", userEmail);
             sqlCommand.Parameters.AddWithValue("@Password", userPassword);
             return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery());
-        }
-
-        /// <summary>
-        /// Executes a sqlcommand instance to read a password or save a new user.
-        /// </summary>
-        /// <param name="cmd">A command to execute.</param>
-        /// <param name="executeQuery">A provides a method to execute a command to recive a proper result. </param>
-        /// <returns>Returns a result of the sqlCommand executions.</returns>
-        private object resultOfQuery(SqlCommand cmd, Func<SqlCommand, object> executeQuery)
-        {
-            try
-            {
-                using (con)
-                {
-                    cmd.Connection = con;
-                    con.Open();
-                    return executeQuery(cmd);
-                }
-            }// TODO: To Implement better exception handling.
-            catch (InvalidOperationException ex)
-            {
-                throw ex;
-            }
-            catch (SqlException ex)
-            {
-                throw ex;
-            }
-            catch (ConfigurationErrorsException ex)
-            {
-                throw ex;
-            }
         }
 
         /// <summary>

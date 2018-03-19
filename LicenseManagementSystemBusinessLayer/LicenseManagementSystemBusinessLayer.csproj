@@ -83,6 +83,7 @@
     <Content Include="WebService\LicenseManagementSystemWebService.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\DataProvider.cs" />
     <Compile Include="Code\LicensesDataProvider.cs" />
     <Compile Include="Code\UserDataProvider.cs" />
     <Compile Include="Code\HashedPassword.cs" />
