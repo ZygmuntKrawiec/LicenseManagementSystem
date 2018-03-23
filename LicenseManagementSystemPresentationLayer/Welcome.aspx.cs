@@ -148,6 +148,18 @@ namespace LicenseManagementSystemPresentationLayer
             lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmal.Text} email already exists.";
         }
 
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Delete a license from a database and reads the result. If true license was deleted if false license could not be deleted.
+            bool result = wsClient.DeleteLicenseFromDatabase("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
+
+            // Sets a proper text colour to the label which displays result message.
+            lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+
+            // Displays in the label a message about result of deleting a license from a database.
+            lblMessages.Text = result ? "User license data deleted." : $"User with {txtUserName.Text} name and {txtUserEmal.Text} email could not be deleted.";
+        }
+
         // Helper methods - to redesin into another class.
 
         protected void dataBindRepeater(int pageNumber, int numberOfAllRows, int numberOfRowsPerPage)
@@ -222,6 +234,6 @@ namespace LicenseManagementSystemPresentationLayer
             return currentPageNumber;
         }
 
-
+        
     }
 }

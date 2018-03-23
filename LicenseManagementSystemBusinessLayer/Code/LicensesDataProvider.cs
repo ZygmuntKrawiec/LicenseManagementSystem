@@ -48,6 +48,7 @@ namespace LicenseManagementSystemBusinessLayer.Code
         /// <returns></returns>
         public bool AddNewLicense(string LicenseDataUserName, string licenseDatauserEmail)
         {
+            // TODO: To REFACTOR along with DeleteLicense method.
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.CommandText = "spAddNewLicenseDataToDatabase";
             sqlCommand.Connection = sqlConnection;
@@ -55,6 +56,20 @@ namespace LicenseManagementSystemBusinessLayer.Code
 
             sqlCommand.Parameters.AddWithValue("@UserName", LicenseDataUserName);
             sqlCommand.Parameters.AddWithValue("@UserEmail", licenseDatauserEmail);
+
+            return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery()) == 1 ? true : false;
+        }
+
+        public bool DeleteLicense(string LicenseDataUserName, string licenseDatauserEmail)
+        {
+            // TODO: To REFACTOR along with AddNewLicense method.
+            SqlCommand sqlCommand = new SqlCommand();
+            sqlCommand.CommandText = "spDeleteLicenseDataFromDatabase";
+            sqlCommand.Connection = sqlConnection;
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@LicenseUserName", LicenseDataUserName);
+            sqlCommand.Parameters.AddWithValue("@LicenseUserEmail", licenseDatauserEmail);
 
             return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery()) == 1 ? true : false;
         }

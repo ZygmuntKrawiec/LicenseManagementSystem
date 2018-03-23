@@ -119,12 +119,28 @@ namespace LicenseManagementSystemBusinessLayer.WebService
         [WebMethod]
         public bool AddNewLicenseData(string userEmail, Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail)
         {
+            // TODO: To REFACTOR along with DeleteLicenseFromDatabase method.
             sqlConnectionToDatabase.ConnectionString = connectionString;
             UserDataProvider userDataProvider = new UserDataProvider(sqlConnectionToDatabase);
             if (userDataProvider.CheckExistenceUserGuidInDatabase(userEmail, loggedUsersAccessNumber))
             {
                 sqlConnectionToDatabase.ConnectionString = connectionString;
                 return new LicensesDataProvider(sqlConnectionToDatabase).AddNewLicense(licenseDataUserName, licenseDataUserEmail);
+            }
+
+            return false;
+        }
+
+        [WebMethod]
+        public bool DeleteLicenseFromDatabase(string userEmail, Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail)
+        {
+            // TODO: To REFACTOR along with AddNewLicenseData method.
+            sqlConnectionToDatabase.ConnectionString = connectionString;
+            UserDataProvider userDataProvider = new UserDataProvider(sqlConnectionToDatabase);
+            if (userDataProvider.CheckExistenceUserGuidInDatabase(userEmail, loggedUsersAccessNumber))
+            {
+                sqlConnectionToDatabase.ConnectionString = connectionString;
+                return new LicensesDataProvider(sqlConnectionToDatabase).DeleteLicense(licenseDataUserName, licenseDataUserEmail);
             }
 
             return false;
