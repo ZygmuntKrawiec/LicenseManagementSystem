@@ -18,10 +18,10 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Login", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Guid Login(string userEmail, string password);
+        LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User Login(string userEmail, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Login", ReplyAction="*")]
-        System.Threading.Tasks.Task<System.Guid> LoginAsync(string userEmail, string password);
+        System.Threading.Tasks.Task<LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User> LoginAsync(string userEmail, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Registration", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -57,6 +57,87 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/DeleteLicenseFromDatabase", ReplyAction="*")]
         System.Threading.Tasks.Task<bool> DeleteLicenseFromDatabaseAsync(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ModifyLicenseData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        bool ModifyLicenseData(string userEmail, System.Guid loggedUsersAccessNumber, string newLicenseDataUserName, string newLicenseDataUserEmail, string oldLicenseDataUserName, string oldLicenseDataUserEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ModifyLicenseData", ReplyAction="*")]
+        System.Threading.Tasks.Task<bool> ModifyLicenseDataAsync(string userEmail, System.Guid loggedUsersAccessNumber, string newLicenseDataUserName, string newLicenseDataUserEmail, string oldLicenseDataUserName, string oldLicenseDataUserEmail);
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1087.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class User : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string userNameField;
+        
+        private string userEmailField;
+        
+        private string userPasswordField;
+        
+        private System.Guid userAccessNumberField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string UserName {
+            get {
+                return this.userNameField;
+            }
+            set {
+                this.userNameField = value;
+                this.RaisePropertyChanged("UserName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string UserEmail {
+            get {
+                return this.userEmailField;
+            }
+            set {
+                this.userEmailField = value;
+                this.RaisePropertyChanged("UserEmail");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string UserPassword {
+            get {
+                return this.userPasswordField;
+            }
+            set {
+                this.userPasswordField = value;
+                this.RaisePropertyChanged("UserPassword");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public System.Guid UserAccessNumber {
+            get {
+                return this.userAccessNumberField;
+            }
+            set {
+                this.userAccessNumberField = value;
+                this.RaisePropertyChanged("UserAccessNumber");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     /// <remarks/>
@@ -132,11 +213,11 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
                 base(binding, remoteAddress) {
         }
         
-        public System.Guid Login(string userEmail, string password) {
+        public LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User Login(string userEmail, string password) {
             return base.Channel.Login(userEmail, password);
         }
         
-        public System.Threading.Tasks.Task<System.Guid> LoginAsync(string userEmail, string password) {
+        public System.Threading.Tasks.Task<LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User> LoginAsync(string userEmail, string password) {
             return base.Channel.LoginAsync(userEmail, password);
         }
         
@@ -178,6 +259,14 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         public System.Threading.Tasks.Task<bool> DeleteLicenseFromDatabaseAsync(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail) {
             return base.Channel.DeleteLicenseFromDatabaseAsync(userEmail, loggedUsersAccessNumber, licenseDataUserName, licenseDataUserEmail);
+        }
+        
+        public bool ModifyLicenseData(string userEmail, System.Guid loggedUsersAccessNumber, string newLicenseDataUserName, string newLicenseDataUserEmail, string oldLicenseDataUserName, string oldLicenseDataUserEmail) {
+            return base.Channel.ModifyLicenseData(userEmail, loggedUsersAccessNumber, newLicenseDataUserName, newLicenseDataUserEmail, oldLicenseDataUserName, oldLicenseDataUserEmail);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ModifyLicenseDataAsync(string userEmail, System.Guid loggedUsersAccessNumber, string newLicenseDataUserName, string newLicenseDataUserEmail, string oldLicenseDataUserName, string oldLicenseDataUserEmail) {
+            return base.Channel.ModifyLicenseDataAsync(userEmail, loggedUsersAccessNumber, newLicenseDataUserName, newLicenseDataUserEmail, oldLicenseDataUserName, oldLicenseDataUserEmail);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace LicenseManagementSystemBusinessLayer.WebService
         /// <param name="password"></param>
         /// <returns></returns>
         [WebMethod]
-        public Guid Login(string userEmail, string password)
+        public User Login(string userEmail, string password)
         {
 
             sqlConnectionToDatabase.ConnectionString = connectionString;
@@ -42,7 +42,7 @@ namespace LicenseManagementSystemBusinessLayer.WebService
             }
             catch
             {
-                return Guid.Empty;
+                return new User() { UserAccessNumber = Guid.Empty };
             }
 
             // If user is authorized, create a new guid and save it to database and return it to a current user.
@@ -51,12 +51,12 @@ namespace LicenseManagementSystemBusinessLayer.WebService
                 Guid userloginGuid = Guid.NewGuid();
                 sqlConnectionToDatabase.ConnectionString = connectionString;
                 userDataProvider.SaveUserGuidToDatabase(userEmail, userloginGuid);
-                return userloginGuid;
+                return new User() { UserAccessNumber = userloginGuid };
             }
             else
             {
                 // If user is not authorised return an empty guid.
-                return Guid.Empty;
+                return new User() { UserAccessNumber = Guid.Empty };
             }
 
         }
@@ -89,7 +89,7 @@ namespace LicenseManagementSystemBusinessLayer.WebService
             {
                 sqlConnectionToDatabase.ConnectionString = connectionString;
                 LicensesDataProvider licensesDataProvider = new LicensesDataProvider(sqlConnectionToDatabase);
-                Tuple<DataSet,int> queryResult = licensesDataProvider.GetLicensesData(pageNumber, columnToSort, numberOfRowsToDisplay, typeOfSorting);
+                Tuple<DataSet, int> queryResult = licensesDataProvider.GetLicensesData(pageNumber, columnToSort, numberOfRowsToDisplay, typeOfSorting);
                 LicensesContainer container = new LicensesContainer();
                 container.LicensesDataSet = queryResult.Item1;
                 container.NumberOfAllLicenses = queryResult.Item2;
@@ -131,6 +131,14 @@ namespace LicenseManagementSystemBusinessLayer.WebService
             return false;
         }
 
+        /// <summary>
+        /// TODO:
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="loggedUsersAccessNumber"></param>
+        /// <param name="licenseDataUserName"></param>
+        /// <param name="licenseDataUserEmail"></param>
+        /// <returns></returns>
         [WebMethod]
         public bool DeleteLicenseFromDatabase(string userEmail, Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail)
         {
@@ -145,11 +153,40 @@ namespace LicenseManagementSystemBusinessLayer.WebService
 
             return false;
         }
+
+        [WebMethod]
+        public bool ModifyLicenseData(string userEmail, Guid loggedUsersAccessNumber, string newLicenseDataUserName, string newLicenseDataUserEmail, string oldLicenseDataUserName, string oldLicenseDataUserEmail)
+        {
+            // TODO: To REFACTOR along with AddNewLicenseData method.
+            sqlConnectionToDatabase.ConnectionString = connectionString;
+            UserDataProvider userDataProvider = new UserDataProvider(sqlConnectionToDatabase);
+            if (userDataProvider.CheckExistenceUserGuidInDatabase(userEmail, loggedUsersAccessNumber))
+            {
+                sqlConnectionToDatabase.ConnectionString = connectionString;
+                return new LicensesDataProvider(sqlConnectionToDatabase).ModifyLicenseData(newLicenseDataUserName, newLicenseDataUserEmail, oldLicenseDataUserName, oldLicenseDataUserEmail);
+            }
+
+            return false;
+        }
     }
 
+    /// <summary>
+    /// Keeps a set of licenses data.
+    /// </summary>
     public class LicensesContainer
     {
         public DataSet LicensesDataSet { get; set; }
         public int NumberOfAllLicenses { get; set; }
-    }  
+    }
+
+    /// <summary>
+    /// Keeps a set of information about a user.
+    /// </summary>
+    public class User
+    {
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+        public string UserPassword { get; set; }
+        public Guid UserAccessNumber { get; set; }
+    }
 }

@@ -74,5 +74,22 @@ namespace LicenseManagementSystemBusinessLayer.Code
             return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery()) == 1 ? true : false;
         }
 
+        public bool ModifyLicenseData(string newLicenseDataUserName, string newlicenseDatauserEmail, string oldLicenseDataUserName, string oldlicenseDatauserEmail)
+        {
+            // TODO: To REFACTOR along with AddNewLicense method.
+            SqlCommand sqlCommand = new SqlCommand();
+            sqlCommand.CommandText = "spModifyLicenseDataInDatabase";
+            sqlCommand.Connection = sqlConnection;
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@newLicenseUserName", newLicenseDataUserName);
+            sqlCommand.Parameters.AddWithValue("@newLicenseUserEmail", newlicenseDatauserEmail);
+
+            sqlCommand.Parameters.AddWithValue("@oldLicenseUserName", oldLicenseDataUserName);
+            sqlCommand.Parameters.AddWithValue("@oldLicenseUserEmail", oldlicenseDatauserEmail);
+
+            return (int)resultOfQuery(sqlCommand, (cmd) => cmd.ExecuteNonQuery()) == 1 ? true : false;
+        }
+
     }
 }

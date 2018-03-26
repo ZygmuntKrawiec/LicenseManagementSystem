@@ -23,10 +23,10 @@ namespace LicenseManagementSystemPresentationLayer
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             LicenseManagementSystemWebServiceSoapClient wsClient = new LicenseManagementSystemWebServiceSoapClient();
-            Guid loggedUsersAccessNumber = wsClient.Login(txtEmail.Text, txtPassword.Text);
-            if (Page.IsValid && loggedUsersAccessNumber != Guid.Empty)
+            User loggedUser = wsClient.Login(txtEmail.Text, txtPassword.Text);
+            if (Page.IsValid && loggedUser.UserAccessNumber != Guid.Empty)
             {
-                Session["loggedUsersAccessNumber"] = loggedUsersAccessNumber;
+                Session["loggedUsersAccessNumber"] = loggedUser.UserAccessNumber;
                 FormsAuthentication.RedirectFromLoginPage(txtEmail.Text, cbxRememberMe.Checked);
             }
             else

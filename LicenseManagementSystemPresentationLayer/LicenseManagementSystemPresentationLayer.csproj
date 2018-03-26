@@ -73,6 +73,9 @@
     <Content Include="MainSite.Master" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <Content Include="packages.config" />
+    <Content Include="Service References\LicenseManagementSystemWebService\LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Service References\LicenseManagementSystemWebService\LicenseManagementSystemWebService.disco" />
     <None Include="Service References\LicenseManagementSystemWebService\configuration91.svcinfo" />
     <None Include="Service References\LicenseManagementSystemWebService\configuration.svcinfo" />

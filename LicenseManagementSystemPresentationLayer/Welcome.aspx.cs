@@ -160,6 +160,30 @@ namespace LicenseManagementSystemPresentationLayer
             lblMessages.Text = result ? "User license data deleted." : $"User with {txtUserName.Text} name and {txtUserEmal.Text} email could not be deleted.";
         }
 
+        protected void btnModify_Click(object sender, EventArgs e)
+        {
+            // TODO: Check whats happen when js is disabled on client site
+            bool result = false;
+            if (gvLicenseData.Rows.OfType<GridViewRow>().Any(x => x.Attributes["Style"] == "Background:Green"))
+            {
+                int rowIndex = gvLicenseData.Rows.OfType<GridViewRow>().First(x => x.Attributes["Style"] == "Background:Green").RowIndex;
+                string oldUserName = gvLicenseData.Rows[rowIndex].Cells[0].Text;
+                string oldUserEmail = gvLicenseData.Rows[rowIndex].Cells[1].Text;
+                // Modify a license from a database and reads the result. If true license was deleted if false license could not be deleted.
+                result = wsClient.ModifyLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text, oldUserName, oldUserEmail);
+            }
+            else
+            {
+                result = false;
+            }
+            // Sets a proper text colour to the label which displays result message.
+            lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+
+            // Displays in the label a message about result of deleting a license from a database.
+            lblMessages.Text = result ? "User license data was modyfied." : $"User with {txtUserName.Text} name and {txtUserEmal.Text} email could not be modyfied.";
+
+        }
+
         // Helper methods - to redesin into another class.
 
         protected void dataBindRepeater(int pageNumber, int numberOfAllRows, int numberOfRowsPerPage)
@@ -205,7 +229,7 @@ namespace LicenseManagementSystemPresentationLayer
             // Set number of rows to display in gridview
             gvLicenseData.PageSize = rowsOnPage;
 
-            // Bind the data            
+            // Bind the data                   
             gvLicenseData.DataSource = result.LicensesDataSet;
             gvLicenseData.DataBind();
 
@@ -234,6 +258,6 @@ namespace LicenseManagementSystemPresentationLayer
             return currentPageNumber;
         }
 
-        
+
     }
 }
