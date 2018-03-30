@@ -8,13 +8,22 @@ using System.Web.UI.WebControls;
 
 namespace LicenseManagementSystemPresentationLayer.Code
 {
-
+    /// <summary>
+    /// Binds licenses data to controls in presentation layer.
+    /// </summary>
     public class LicensesDataBinder
     {
+        // Fields keep references to controls used to display licenses and othet informations.
         GridView gridView;
         Repeater repeater;
         DropDownList dropDownList;
 
+        /// <summary>
+        /// Creates instance of LicensesDataBinder with reference to controls where licenses data are displayed.
+        /// </summary>
+        /// <param name="gridView">A GridView to display licenses data.</param>
+        /// <param name="repeater">A Repeater to display number of pages.</param>
+        /// <param name="dropDownList">A DropDownList to read how many rows should be displayed.</param>
         public LicensesDataBinder(GridView gridView, Repeater repeater, DropDownList dropDownList)
         {
             this.gridView = gridView;
@@ -22,8 +31,16 @@ namespace LicenseManagementSystemPresentationLayer.Code
             this.dropDownList = dropDownList;
         }
 
-        // Instance        
-
+        // Instance methods
+        /// <summary>
+        /// Binds a portion of licenses recived from  LicenseManagementSystemWebService client.
+        /// </summary>
+        /// <param name="wsClient">LicenseManagementSystemWebService client.</param>
+        /// <param name="user">A user with permission to read licenses data.</param>
+        /// <param name="pageNumber">A number of current page displayed in GridView.</param>
+        /// <param name="columnToSort">A number of column to sort.</param>
+        /// <param name="typeOfSorting">True - ascending, false - descending.</param>
+        /// <param name="rowsOnPage">A number of rows displayed on one page.</param>
         public void LicensesDataBind(LicenseManagementSystemWebServiceSoapClient wsClient, User user, int pageNumber, int columnToSort, bool typeOfSorting, int rowsOnPage)
         {
             // Get Licenses data from a database.
@@ -40,6 +57,12 @@ namespace LicenseManagementSystemPresentationLayer.Code
             repeaterDataBind(pageNumber, result.NumberOfAllLicenses, int.Parse(dropDownList.SelectedItem.Value));
         }
 
+        /// <summary>
+        /// Calculates number of all pages which can be displaed in GridView  and binds it to repeater.
+        /// </summary>
+        /// <param name="pageNumber">A number of current page displayed in GridView.</param>
+        /// <param name="numberOfAllRows">A number of all records in a database table with licenses data.</param>
+        /// <param name="numberOfRowsPerPage">A number of rows displayed on one page.</param>
         private void repeaterDataBind(int pageNumber, int numberOfAllRows, int numberOfRowsPerPage)
         {
             // Create a container for page numbers
@@ -73,7 +96,7 @@ namespace LicenseManagementSystemPresentationLayer.Code
             repeater.DataBind();
         }
 
-        // Static
+        // Static methods
         /// <summary>
         /// Finds an active licenses page number from a Repeater web control.
         /// </summary>
