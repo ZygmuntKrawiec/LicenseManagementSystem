@@ -148,14 +148,17 @@ namespace LicenseManagementSystemPresentationLayer
 
         protected void btnAdd_Click(object sender, EventArgs e)
         {
-            // Add a new license to a database and reads the result. If true license was added if false license could not be added.
-            bool result = wsClient.AddNewLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
+            if (!string.IsNullOrEmpty(txtUserName.Text) && !string.IsNullOrEmpty(txtUserEmal.Text))
+            {
+                // Add a new license to a database and reads the result. If true license was added if false license could not be added.
+                bool result = wsClient.AddNewLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
 
-            // Sets a proper text colour to the label which displays result message.
-            lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+                // Sets a proper text colour to the label which displays result message.
+                lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
-            // Displays in the label a message about result of adding a license into database.
-            lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmal.Text} email already exists.";
+                // Displays in the label a message about result of adding a license into database.
+                lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmal.Text} email already exists.";
+            }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
