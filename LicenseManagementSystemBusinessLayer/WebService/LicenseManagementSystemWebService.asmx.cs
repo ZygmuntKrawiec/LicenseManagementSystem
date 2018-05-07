@@ -105,12 +105,12 @@ namespace LicenseManagementSystemBusinessLayer.WebService
         /// <param name="userEmail"></param>
         /// <param name="loggedUsersAccessNumber"></param>
         [WebMethod]
-        public void LogoutUser(string userEmail, Guid loggedUsersAccessNumber)
+        public void LogoutUser(User user)
         {
             sqlConnectionToDatabase.ConnectionString = connectionString;
             UserDataProvider userDataProvider = new UserDataProvider(sqlConnectionToDatabase);
 
-            userDataProvider.RemoveUserGuidFromDatabase(userEmail, loggedUsersAccessNumber);
+            userDataProvider.RemoveUserGuidFromDatabase(user);
         }
 
         /// <summary>
