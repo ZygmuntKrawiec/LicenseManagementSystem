@@ -44,7 +44,7 @@ namespace LicenseManagementSystemPresentationLayer.Code
         public void LicensesDataBind(LicenseManagementSystemWebServiceSoapClient wsClient, User user, int pageNumber, int columnToSort, bool typeOfSorting, int rowsOnPage)
         {
             // Get Licenses data from a database.
-            LicensesContainer result = wsClient.GetLicensesData(user.UserName, user.UserAccessNumber, pageNumber, columnToSort, rowsOnPage, typeOfSorting);
+            LicensesContainer result = wsClient.GetLicensesData(user.UserEmail, user.UserAccessNumber, pageNumber, columnToSort, rowsOnPage, typeOfSorting);
 
             // Set number of rows to display in gridview
             gridView.PageSize = rowsOnPage;
