@@ -90,6 +90,7 @@ namespace LicenseManagementSystemBusinessLayer.Code
         /// <returns> Returns true if user's guid number exists in a database.</returns>
         public bool CheckExistenceUserGuidInDatabase(string userEmail, Guid userLoginGuid)
         {
+            User user = new User() { UserEmail = userEmail, UserAccessNumber = userLoginGuid };
             object result = checkSaveOrRemoveUserGuidNumber(userEmail, userLoginGuid, "spCheckExistenceUserGuidInDatabase");
             return result is int && (int)result == 1 ? true : false;
         }
