@@ -91,7 +91,7 @@ namespace LicenseManagementSystemBusinessLayer.Code
         public bool CheckExistenceUserGuidInDatabase(string userEmail, Guid userLoginGuid)
         {
             User user = new User() { UserEmail = userEmail, UserAccessNumber = userLoginGuid };
-            object result = checkSaveOrRemoveUserGuidNumber(userEmail, userLoginGuid, "spCheckExistenceUserGuidInDatabase");
+            object result = checkSaveOrRemoveUserGuidNumber(user, "spCheckExistenceUserGuidInDatabase");
             return result is int && (int)result == 1 ? true : false;
         }
 
