@@ -37,7 +37,7 @@
         <asp:Label ID="lblUser" runat="server" Text="User name"></asp:Label>
         <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
         <asp:Label ID="lblEmail" runat="server" Text="User email"></asp:Label>
-        <asp:TextBox ID="txtUserEmal" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtUserEmail" runat="server"></asp:TextBox>
     </asp:Panel>
 </asp:Content>
 
