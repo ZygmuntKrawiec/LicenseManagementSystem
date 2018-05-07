@@ -37,7 +37,7 @@ namespace LicenseManagementSystemPresentationLayer
                 throw new Exception("Uncomment the line above and a line in an authorization tag in web.config, change userdata in the line 136, and change hadr Guid into viewstateguid ");
 #endif
                 // Read a first portion of data and display it in a gridview.
-                User user = new User() { UserName = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+                User user = new User() { UserEmail = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
                 licenseDataBinder.LicensesDataBind(wsClient, user, 0, 0, true, 10);
 
                 // Save an index of sorted column.
