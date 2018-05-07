@@ -63,9 +63,9 @@ namespace LicenseManagementSystemBusinessLayer.Code
         /// <param name="userEmail">A users email/login.</param>
         /// <param name="userLoginGuid">A users Guid.</param>
         /// <returns>Returns true if use's data was saved correctly.</returns>
-        public bool SaveUserGuidToDatabase(string userEmail, Guid userLoginGuid)
+        public bool SaveUserGuidToDatabase(User user)
         {
-            object result = checkSaveOrRemoveUserGuidNumber(userEmail, userLoginGuid, "spSaveUserGuidToDatabase");
+            object result = checkSaveOrRemoveUserGuidNumber(user, "spSaveUserGuidToDatabase");
 
             return result is int && (int)result == 1 ? true : false;
         }
