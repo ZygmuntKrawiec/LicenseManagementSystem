@@ -92,9 +92,7 @@ namespace LicenseManagementSystemPresentationLayer
             // Bind a chosen portion of data to the gridview
             User user = new User() { UserName = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
             licenseDataBinder.LicensesDataBind(wsClient, user, pageNumber, (int)ViewState["indexSortedColumn"], !(bool)ViewState["sortDirection"], rows);
-
-            // Clear all texboxes
-            txtUserEmal.Text = string.Empty;
+            txtUserEmail.Text = string.Empty;
             txtUserName.Text = string.Empty;
 
         }
@@ -110,7 +108,7 @@ namespace LicenseManagementSystemPresentationLayer
             ViewState["sortDirection"] = false;
 
             // Clear all texboxes
-            txtUserEmal.Text = string.Empty;
+            txtUserEmail.Text = string.Empty;
             txtUserName.Text = string.Empty;
         }
 
@@ -141,36 +139,36 @@ namespace LicenseManagementSystemPresentationLayer
             if (int.TryParse(e.CommandArgument.ToString(), out colRowIndexes))
             {
                 txtUserName.Text = ((GridView)sender).Rows[colRowIndexes].Cells[0].Text;
-                txtUserEmal.Text = ((GridView)sender).Rows[colRowIndexes].Cells[1].Text;
+                txtUserEmail.Text = ((GridView)sender).Rows[colRowIndexes].Cells[1].Text;
                 ((GridView)sender).Rows[colRowIndexes].Attributes["Style"] = "Background:Green";
             }
         }
 
         protected void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtUserName.Text) && !string.IsNullOrEmpty(txtUserEmal.Text))
+            if (!string.IsNullOrEmpty(txtUserName.Text) && !string.IsNullOrEmpty(txtUserEmail.Text))
             {
                 // Add a new license to a database and reads the result. If true license was added if false license could not be added.
-                bool result = wsClient.AddNewLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
+                bool result = wsClient.AddNewLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmail.Text);
 
                 // Sets a proper text colour to the label which displays result message.
                 lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
                 // Displays in the label a message about result of adding a license into database.
-                lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmal.Text} email already exists.";
+                lblMessages.Text = result ? "User license data added" : $"User with {txtUserEmail.Text} email already exists.";
             }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             // Delete a license from a database and reads the result. If true license was deleted if false license could not be deleted.
-            bool result = wsClient.DeleteLicenseFromDatabase("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text);
+            bool result = wsClient.DeleteLicenseFromDatabase("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmail.Text);
 
             // Sets a proper text colour to the label which displays result message.
             lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
             // Displays in the label a message about result of deleting a license from a database.
-            lblMessages.Text = result ? "User license data deleted." : $"User with {txtUserName.Text} name and {txtUserEmal.Text} email could not be deleted.";
+            lblMessages.Text = result ? "User license data deleted." : $"User with {txtUserName.Text} name and {txtUserEmail.Text} email could not be deleted.";
         }
 
         protected void btnModify_Click(object sender, EventArgs e)
@@ -183,7 +181,7 @@ namespace LicenseManagementSystemPresentationLayer
                 string oldUserName = gvLicenseData.Rows[rowIndex].Cells[0].Text;
                 string oldUserEmail = gvLicenseData.Rows[rowIndex].Cells[1].Text;
                 // Modify a license from a database and reads the result. If true license was deleted if false license could not be deleted.
-                result = wsClient.ModifyLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmal.Text, oldUserName, oldUserEmail);
+                result = wsClient.ModifyLicenseData("DupaEmail4", Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a"), txtUserName.Text, txtUserEmail.Text, oldUserName, oldUserEmail);
             }
             else
             {
@@ -193,7 +191,7 @@ namespace LicenseManagementSystemPresentationLayer
             lblMessages.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
             // Displays in the label a message about result of deleting a license from a database.
-            lblMessages.Text = result ? "User license data was modyfied." : $"User with {txtUserName.Text} name and {txtUserEmal.Text} email could not be modyfied.";
+            lblMessages.Text = result ? "User license data was modyfied." : $"User with {txtUserName.Text} name and {txtUserEmail.Text} email could not be modyfied.";
 
         }
     }
