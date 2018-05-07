@@ -50,7 +50,8 @@ namespace LicenseManagementSystemBusinessLayer.WebService
             {
                 Guid userloginGuid = Guid.NewGuid();
                 sqlConnectionToDatabase.ConnectionString = connectionString;
-                userDataProvider.SaveUserGuidToDatabase(userEmail, userloginGuid);
+                User user = new User() {UserEmail = userEmail, UserAccessNumber = userloginGuid };
+                userDataProvider.SaveUserGuidToDatabase(user);
                 return new User() { UserAccessNumber = userloginGuid };
             }
             else
