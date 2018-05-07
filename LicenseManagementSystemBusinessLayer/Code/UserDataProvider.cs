@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using LicenseManagementSystemBusinessLayer.WebService;
 
 namespace LicenseManagementSystemBusinessLayer.Code
 {
@@ -75,9 +76,9 @@ namespace LicenseManagementSystemBusinessLayer.Code
         /// <param name="userEmail">A users email/login.</param>
         /// <param name="userLoginGuid">A users Guid.</param>
         /// <returns>Returns true if use's data was removed correctly.</returns>
-        public bool RemoveUserGuidFromDatabase(string userEmail, Guid userLoginGuid)
+        public bool RemoveUserGuidFromDatabase(User user)
         {
-            object result = checkSaveOrRemoveUserGuidNumber(userEmail, userLoginGuid, "spRemoveUserGuidFromDatabase");
+            object result = checkSaveOrRemoveUserGuidNumber(user, "spRemoveUserGuidFromDatabase");
             return result is int && (int)result == 1 ? true : false;
         }
 
@@ -100,12 +101,12 @@ namespace LicenseManagementSystemBusinessLayer.Code
         /// <param name="userloginGuid">A users Guid.</param>
         /// <param name="storedProcedure">A name ofstored procedure to execute.</param>
         /// <returns>A value returned by an executed stored procedure. </returns>
-        private object checkSaveOrRemoveUserGuidNumber(string userEmail, Guid userloginGuid, string storedProcedure)
+        private object checkSaveOrRemoveUserGuidNumber(User user, string storedProcedure)
         {
             SqlCommand command = new SqlCommand(storedProcedure);
             command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@UserEmail", userEmail);
-            command.Parameters.AddWithValue("@UserGuidNumber", userloginGuid);
+            command.Parameters.AddWithValue("@UserEmail", user.UserEmail);
+            command.Parameters.AddWithValue("@UserGuidNumber", user.UserAccessNumber);
 
             return resultOfQuery(command, (cmd) => cmd.ExecuteScalar());
         }
