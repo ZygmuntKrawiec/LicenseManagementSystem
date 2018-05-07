@@ -13,15 +13,7 @@
         <asp:ListItem Text="50" Value="50"></asp:ListItem>
         <asp:ListItem Text="100" Value="100"></asp:ListItem>
     </asp:DropDownList>
-    <asp:Panel ID="pnlButtons" runat="server">
-        <asp:Button ID="btnAdd" runat="server" Text="Add" OnClick="btnAdd_Click" />
-        <asp:Button ID="btnModify" runat="server" Text="Modify" OnClick="btnModify_Click" />
-        <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
-    </asp:Panel>
-    <asp:Panel ID="pnlTextBoxes" runat="server" Visible="true">
-        <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtUserEmal" runat="server"></asp:TextBox>
-    </asp:Panel>
+   
     <div style="font-family: Arial;">
         <asp:GridView ID="gvLicenseData" runat="server" AllowSorting="True" AllowPaging="True" AllowCustomPaging="True" OnSorting="grvLicenseData_Sorting" OnRowCommand="gvLicenseData_RowCommand" OnRowDataBound="gvLicenseData_RowDataBound">
         </asp:GridView>
@@ -33,6 +25,20 @@
         </asp:Repeater>
     </div>
     <asp:Label ID="lblMessages" runat="server" Text=""></asp:Label>
-
 </asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="MenuContent" runat="server">
+     <asp:Panel ID="pnlButtons" runat="server">
+        <asp:Button ID="btnAdd" runat="server" Text="Add" OnClick="btnAdd_Click" Width="40px"/>
+        <asp:Button ID="btnModify" runat="server" Text="Modify" OnClick="btnModify_Click" Width="50px" />
+        <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" Width="50px" />
+    </asp:Panel>
+    <asp:Panel ID="pnlTextBoxes" runat="server" Visible="true">
+        <asp:Label ID="lblUser" runat="server" Text="User name"></asp:Label>
+        <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
+        <asp:Label ID="lblEmail" runat="server" Text="User email"></asp:Label>
+        <asp:TextBox ID="txtUserEmal" runat="server"></asp:TextBox>
+    </asp:Panel>
+</asp:Content>
+
 
