@@ -17,7 +17,7 @@ namespace LicenseManagementSystemPresentationLayer
     {
         // WebService Client instance.
         LicenseManagementSystemWebServiceSoapClient wsClient = new LicenseManagementSystemWebServiceSoapClient();
-
+        User user;
         // Helper class 
         LicensesDataBinder licenseDataBinder;
 
@@ -27,7 +27,7 @@ namespace LicenseManagementSystemPresentationLayer
         {
             // Create data binder
             licenseDataBinder = new LicensesDataBinder(gvLicenseData, rprPages, ddlRowsPerPage);
-
+            user = new User() { UserEmail = User.Identity.Name.ToString(), UserAccessNumber = (Guid)Session["loggedUsersAccessNumber"] };
             if (!Page.IsPostBack)
             {
                 // Display a name of logged user on page.
@@ -37,7 +37,8 @@ namespace LicenseManagementSystemPresentationLayer
                 throw new Exception("Uncomment the line above and a line in an authorization tag in web.config, change userdata in the line 136, and change hadr Guid into viewstateguid ");
 #endif
                 // Read a first portion of data and display it in a gridview.
-                User user = new User() { UserEmail = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+                 //user = new User() { UserEmail = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+                
                 licenseDataBinder.LicensesDataBind(wsClient, user, 0, 0, true, 10);
 
                 // Save an index of sorted column.
@@ -76,7 +77,7 @@ namespace LicenseManagementSystemPresentationLayer
             int rows = int.Parse(ddlRowsPerPage.SelectedItem.Value);
 
             // Choose a sorting direction (if true then ASC if false then DESC).
-            User user = new User() { UserName = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+            
             licenseDataBinder.LicensesDataBind(wsClient, user, currentPageNumber, columnIndex, (bool)ViewState["sortDirection"], rows);
             ViewState["sortDirection"] = !(bool)ViewState["sortDirection"];
         }
@@ -90,7 +91,7 @@ namespace LicenseManagementSystemPresentationLayer
             int rows = int.Parse(ddlRowsPerPage.SelectedItem.Value);
 
             // Bind a chosen portion of data to the gridview
-            User user = new User() { UserName = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+           // User user = new User() { UserEmail = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
             licenseDataBinder.LicensesDataBind(wsClient, user, pageNumber, (int)ViewState["indexSortedColumn"], !(bool)ViewState["sortDirection"], rows);
             txtUserEmail.Text = string.Empty;
             txtUserName.Text = string.Empty;
