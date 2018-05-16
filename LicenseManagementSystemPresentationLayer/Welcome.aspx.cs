@@ -31,11 +31,8 @@ namespace LicenseManagementSystemPresentationLayer
             if (!Page.IsPostBack)
             {
                 // Display a name of logged user on page.
-                lblUserName.Text = User.Identity.Name.ToString();
-                
-#if (!DEBUG)
-                throw new Exception("Uncomment the line above and a line in an authorization tag in web.config, change userdata in the line 136, and change hadr Guid into viewstateguid ");
-#endif
+                lblUserName.Text = User.Identity.Name.ToString();                
+
                 // Read a first portion of data and display it in a gridview.
                 licenseDataBinder.LicensesDataBind(wsClient, user, 0, 0, true, 10);
 
