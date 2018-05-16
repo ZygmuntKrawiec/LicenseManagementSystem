@@ -99,8 +99,7 @@ namespace LicenseManagementSystemPresentationLayer
             // Take a number of rows to display in a gridview
             int rows = int.Parse(((DropDownList)sender).SelectedItem.Value);
 
-            // Bind a chosen portion of data to the gridview
-            User user = new User() { UserName = "DupaEmail4", UserAccessNumber = Guid.Parse("d2d647d0-dfbd-40c2-a372-c14f6b88bf5a") };
+            // Bind a chosen portion of data to the gridview           
             licenseDataBinder.LicensesDataBind(wsClient, user, 0, (int)ViewState["indexSortedColumn"], true, rows);
             ViewState["sortDirection"] = false;
 
