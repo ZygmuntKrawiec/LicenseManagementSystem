@@ -13,7 +13,7 @@ namespace LicenseManagementSystemPresentationLayer.Code
     /// </summary>
     public class LicensesDataBinder
     {
-        // Fields keep references to controls used to display licenses and othet informations.
+        // Fields keep references to controls used to display licenses and other informations.
         GridView gridView;
         Repeater repeater;
         DropDownList dropDownList;
