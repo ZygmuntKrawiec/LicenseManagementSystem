@@ -39,10 +39,10 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LogoutUser", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        void LogoutUser(string userEmail, System.Guid loggedUsersAccessNumber);
+        void LogoutUser(LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LogoutUser", ReplyAction="*")]
-        System.Threading.Tasks.Task LogoutUserAsync(string userEmail, System.Guid loggedUsersAccessNumber);
+        System.Threading.Tasks.Task LogoutUserAsync(LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AddNewLicenseData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -237,12 +237,12 @@ namespace LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebSer
             return base.Channel.GetLicensesDataAsync(userEmail, loggedUsersAccessNumber, pageNumber, columnToSort, numberOfRowsToDisplay, typeOfSorting);
         }
         
-        public void LogoutUser(string userEmail, System.Guid loggedUsersAccessNumber) {
-            base.Channel.LogoutUser(userEmail, loggedUsersAccessNumber);
+        public void LogoutUser(LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User user) {
+            base.Channel.LogoutUser(user);
         }
         
-        public System.Threading.Tasks.Task LogoutUserAsync(string userEmail, System.Guid loggedUsersAccessNumber) {
-            return base.Channel.LogoutUserAsync(userEmail, loggedUsersAccessNumber);
+        public System.Threading.Tasks.Task LogoutUserAsync(LicenseManagementSystemPresentationLayer.LicenseManagementSystemWebService.User user) {
+            return base.Channel.LogoutUserAsync(user);
         }
         
         public bool AddNewLicenseData(string userEmail, System.Guid loggedUsersAccessNumber, string licenseDataUserName, string licenseDataUserEmail) {
