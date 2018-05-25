@@ -45,9 +45,9 @@ namespace LicenseManagementSystemPresentationLayer
         }
 
         protected void lbnLogout_Click(object sender, EventArgs e)
-        {
+        {            
             // Remove logging data from web service.
-            wsClient.LogoutUser(User.Identity.Name.ToString(), (Guid)Session["loggedUsersAccessNumber"]);
+            wsClient.LogoutUser(user);
 
             // Remove authentications data from the browser. 
             FormsAuthentication.SignOut();
