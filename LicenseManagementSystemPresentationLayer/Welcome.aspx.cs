@@ -22,6 +22,15 @@ namespace LicenseManagementSystemPresentationLayer
         LicensesDataBinder licenseDataBinder;
 
         // Events
+        protected override void OnPreInit(EventArgs e)
+        {
+            // Check if user is authenticated or user guid contains a value, to prevent user null exception.
+            if (User.Identity.Name.ToString() == null || Session.Count == 0)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect("Login.aspx");
+            }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -31,7 +40,7 @@ namespace LicenseManagementSystemPresentationLayer
             if (!Page.IsPostBack)
             {
                 // Display a name of logged user on page.
-                lblUserName.Text = User.Identity.Name.ToString();                
+                lblUserName.Text = User.Identity.Name.ToString();
 
                 // Read a first portion of data and display it in a gridview.
                 licenseDataBinder.LicensesDataBind(wsClient, user, 0, 0, true, 10);
@@ -45,7 +54,7 @@ namespace LicenseManagementSystemPresentationLayer
         }
 
         protected void lbnLogout_Click(object sender, EventArgs e)
-        {            
+        {
             // Remove logging data from web service.
             wsClient.LogoutUser(user);
 
