@@ -49,7 +49,7 @@ namespace LicenseManagementSystemPresentationLayer
                 ViewState["indexSortedColumn"] = 0;
 
                 // Save a sort direction (ASC - true, DESC - false).
-                ViewState["sortDirection"] = false;
+                ViewState["sortDirection"] = true;
             }
         }
 
@@ -70,7 +70,7 @@ namespace LicenseManagementSystemPresentationLayer
             // Take current page number.
             int currentPageNumber = LicensesDataBinder.GetCurrentPageNumber(rprPages);
 
-            // Take index of column to sort.      
+            // Take index column to sort.      
             TableCell x1 = ((GridView)sender).HeaderRow.Cells.OfType<TableCell>().Where(t => t.Controls.OfType<LinkButton>().Any(l => l.Text == e.SortExpression)).First();
             var columnIndex = ((GridView)sender).HeaderRow.Cells.GetCellIndex(x1);
 
@@ -81,7 +81,7 @@ namespace LicenseManagementSystemPresentationLayer
             int rows = int.Parse(ddlRowsPerPage.SelectedItem.Value);
 
             // Choose a sorting direction (if true then ASC if false then DESC).            
-            licenseDataBinder.LicensesDataBind(wsClient, user, currentPageNumber, columnIndex, (bool)ViewState["sortDirection"], rows);
+            licenseDataBinder.LicensesDataBind(wsClient, user, currentPageNumber, columnIndex, !(bool)ViewState["sortDirection"], rows);
             ViewState["sortDirection"] = !(bool)ViewState["sortDirection"];
         }
 
@@ -94,7 +94,9 @@ namespace LicenseManagementSystemPresentationLayer
             int rows = int.Parse(ddlRowsPerPage.SelectedItem.Value);
 
             // Bind a chosen portion of data to the gridview           
-            licenseDataBinder.LicensesDataBind(wsClient, user, pageNumber, (int)ViewState["indexSortedColumn"], !(bool)ViewState["sortDirection"], rows);
+            licenseDataBinder.LicensesDataBind(wsClient, user, pageNumber, (int)ViewState["indexSortedColumn"], (bool)ViewState["sortDirection"], rows);
+            
+            // Clear all texboxes
             txtUserEmail.Text = string.Empty;
             txtUserName.Text = string.Empty;
 
@@ -106,8 +108,8 @@ namespace LicenseManagementSystemPresentationLayer
             int rows = int.Parse(((DropDownList)sender).SelectedItem.Value);
 
             // Bind a chosen portion of data to the gridview           
-            licenseDataBinder.LicensesDataBind(wsClient, user, 0, (int)ViewState["indexSortedColumn"], true, rows);
-            ViewState["sortDirection"] = false;
+            licenseDataBinder.LicensesDataBind(wsClient, user, 0, (int)ViewState["indexSortedColumn"], (bool)ViewState["sortDirection"], rows);
+            //ViewState["sortDirection"] = false;
 
             // Clear all texboxes
             txtUserEmail.Text = string.Empty;
